@@ -1,3 +1,3 @@
-# Note
+# DevNote
 
--> [wiki](https://github.com/suzuki-hoge/note/wiki)
+-> [wiki](https://github.com/suzuki-hoge/dev-note/wiki)
