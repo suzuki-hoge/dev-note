@@ -1,0 +1,15 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  config.vm.provider :virtualbox do |vbox|
+    vbox.name = 'team-fab'
+  end
+  
+  config.vm.box = 'CentOS_6.5_x86_64'
+  config.vm.box_url = 'https://github.com/2creatives/vagrant-centos/releases/download/v6.5.3/centos65-x86_64-20140116.box'
+  
+  config.vm.provision :shell, :path => 'setup.sh'
+end
