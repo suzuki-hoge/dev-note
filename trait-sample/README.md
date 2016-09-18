@@ -195,7 +195,7 @@ $userNameValidator->isValid('j@ck');
 ### 部品
 ただひたすら淡々と作る
 
-```:AddressRepository
+```php:AddressRepository
 trait AddressRepository {
     function saveAddress($address) {
         echo __FUNCTION__ . "\n";
