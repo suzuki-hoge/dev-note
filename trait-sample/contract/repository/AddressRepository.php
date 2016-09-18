@@ -3,8 +3,10 @@
 namespace repository;
 
 
-trait AddressRepository {
-    function saveAddress($address) {
+trait AddressRepository
+{
+    function saveAddress($address)
+    {
         echo __FUNCTION__ . "\n";
     }
 }

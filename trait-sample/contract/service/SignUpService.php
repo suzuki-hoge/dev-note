@@ -10,15 +10,16 @@ require_once '../repository/MailRepository.php';
 require_once '../repository/PaymentRepository.php';
 require_once '../repository/PlanRepository.php';
 
-use repository\MemberRepository;
 use repository\AddressRepository;
-use repository\PaymentMethodRepository;
 use repository\MailAddressRepository;
 use repository\MailRepository;
+use repository\MemberRepository;
+use repository\PaymentMethodRepository;
 use repository\PaymentRepository;
 use repository\PlanRepository;
 
-class SignUpService {
+class SignUpService
+{
     use MemberRepository;
     use AddressRepository;
     use PaymentMethodRepository;

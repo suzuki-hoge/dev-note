@@ -3,12 +3,15 @@
 namespace repository;
 
 
-trait MemberRepository {
-    function saveMember($member) {
+trait MemberRepository
+{
+    function saveMember($member)
+    {
         echo __FUNCTION__ . "\n";
     }
 
-    function findMember($id) {
+    function findMember($id)
+    {
         echo __FUNCTION__ . "\n";
         return '';
     }

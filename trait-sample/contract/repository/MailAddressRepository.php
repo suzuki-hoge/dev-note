@@ -3,12 +3,15 @@
 namespace repository;
 
 
-trait MailAddressRepository {
-    function saveMailAddress($mailAddress) {
+trait MailAddressRepository
+{
+    function saveMailAddress($mailAddress)
+    {
         echo __FUNCTION__ . "\n";
     }
 
-    function findMailAddress($id) {
+    function findMailAddress($id)
+    {
         echo __FUNCTION__ . "\n";
         return '';
     }

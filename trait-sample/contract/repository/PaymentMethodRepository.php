@@ -3,12 +3,15 @@
 namespace repository;
 
 
-trait PaymentMethodRepository {
-    function savePaymentMethod($paymentMethod) {
+trait PaymentMethodRepository
+{
+    function savePaymentMethod($paymentMethod)
+    {
         echo __FUNCTION__ . "\n";
     }
 
-    function findPaymentMethod($id) {
+    function findPaymentMethod($id)
+    {
         echo __FUNCTION__ . "\n";
         return '';
     }
