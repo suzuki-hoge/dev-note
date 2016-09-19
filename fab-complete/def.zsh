@@ -1,5 +1,5 @@
 compdef _fab_complete fab
-function _fab_complete {
+function _fab_tasks {
     in_header=1
     tasks=()
     IFS_BK=$IFS
@@ -17,4 +17,11 @@ function _fab_complete {
 
     _values 'tasks' $tasks
     IFS=$IFS_BK
+}
+
+function _fab_complete {
+    _arguments \
+        '(- *)'{-l,--list}'[print list of possible commands and exit]' \
+        '(-f --file)'{-f,--file}"[python module file to import, e.g. '../other.py']:fabric file:_files" \
+        '*:tasks:_fab_tasks'
 }
