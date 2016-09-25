@@ -13,7 +13,6 @@
 + [README.md](tip-dropwhile/README.md)
 
 ## [trait-sample](trait-sample)
-+ [memo.md](trait-sample/memo.md)
 + [README.md](trait-sample/README.md)
 
 -> [wiki](https://github.com/suzuki-hoge/dev-note/wiki)
