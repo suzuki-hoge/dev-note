@@ -1,0 +1,94 @@
+#!/usr/bin/python
+
+import os
+import sys
+import commands
+
+# functions
+def assert_it(it, then):
+    if not it:
+        if type(then) is str:
+            print '\n' + then
+        else:
+            then()
+        sys.exit(1)
+
+def usage():
+	print
+	print 'usage: git quickedit <subcommand>'
+	print
+	print 'Available subcommands are:'
+	print '    help   show this help.'
+	print
+	print '  operate for path list:'
+	print '    list   show path list.'
+	print '    manage edit path list.'
+	print
+	print '  operate for file:'
+	print '    new    select a file from non_existent files, then vi new file.'
+	print '    write  select a file from existing files, then vi it with scratch buffer.'
+	print '    edit   select a file from existing files, then vi it.'
+	print ''
+
+def existing(root, path_list_file):
+    return lines(
+        path_list_file,
+        lambda path: os.path.exists('%s/%s' % (root, path.strip()))
+    )
+
+def non_existent(root, path_list_file):
+    return lines(
+        path_list_file,
+        lambda path: not os.path.exists('%s/%s' % (root, path.strip()))
+    )
+
+def lines(path_list_file, predicate):
+    with open(path_list_file, 'r') as file:
+        return '\n'.join([path.strip() for path in file.readlines() if predicate(path)])
+
+# assert percol is installed
+assert_it(os.system('which percol > /dev/null 2>&1') == 0, 'percol is not installed, do following command.\nsudo pip install percol')
+
+# assert current directory is in git directory
+assert_it(os.system('git rev-parse --show-toplevel > /dev/null 2>&1') == 0, 'current directory is not in git directory')
+
+# assert subcommand
+assert_it(len(sys.argv) == 2, usage)
+assert_it(sys.argv[1] in ['help', 'manage', 'list', 'write', 'new', 'edit'], usage)
+
+# vars
+root = commands.getoutput('git rev-parse --show-toplevel')
+from_config = commands.getoutput('git config --get quickedit.pathlist')
+path_list_file = from_config if from_config else os.path.expanduser('~/.git_quickedit')
+subcommand = sys.argv[1]
+
+# help
+if subcommand == 'help':
+    usage()
+
+# manage
+elif subcommand == 'manage':
+    os.system('vi %s' % path_list_file)
+
+# assert path list file exists
+assert_it(os.path.exists(path_list_file), 'path list file is not exists, do following command.\ngit quickedit manage')
+
+# list
+if subcommand == 'list':
+    print '\n' + path_list_file + '\n'
+    os.system('cat %s' % path_list_file)
+    print ''
+
+# write
+elif subcommand == 'write':
+    os.system('root="%s"; path=`echo "%s" | percol`; vi -c "syntax on" -c "setlocal buftype=nofile" -c "setlocal bufhidden=hide" -c "setlocal noswapfile" $root/$path' % (root, existing(root, path_list_file)))
+
+# new
+elif subcommand == 'new':
+    os.system('root="%s"; path=`echo "%s" | percol`; vi -c "syntax on" $root/$path' % (root, non_existent(root, path_list_file)))
+
+# edit
+elif subcommand == 'edit':
+    os.system('root="%s"; path=`echo "%s" | percol`; vi -c "syntax on" $root/$path' % (root, existing(root, path_list_file)))
+
+sys.exit(0)

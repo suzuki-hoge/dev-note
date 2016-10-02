@@ -3,6 +3,10 @@
 ## [fab-complete](fab-complete)
 + [README.md](fab-complete/README.md)
 
+## [git-quickedit](git-quickedit)
++ [QIITA.md](git-quickedit/QIITA.md)
++ [README.md](git-quickedit/README.md)
+
 ## [java9-repl](java9-repl)
 + [README.md](java9-repl/README.md)
 
