@@ -1,5 +1,7 @@
-# git-quickedit
-よく使うファイルをすぐ編集できるGitプラグイン
+よく使うファイルをすぐ編集できるGitプラグインを作ってみた
+
+普段よくやっていることをちょっとしたエイリアスにしていたんだけど、Gitプラグインを作って公開してみたくなったのでやってみた
+ちょっと汎用化が足りないので、需要があるかは謎
 
 ## 概要
 git管理下でよく編集するファイルをリストアップしておき、そのリストを[`percol`](https://github.com/mooz/percol)で絞り込みサクっと編集する
@@ -68,33 +70,53 @@ README.md
 ### git template help
 ヘルプを表示する
 
-![help.png](images/help.png)
+![help.png](https://qiita-image-store.s3.amazonaws.com/0/113398/9c2633f9-7b53-e3ae-a9ad-dc5617c62538.png)
 
 ### git template list
 パスリストの参照をする
 
-![list.png](images/list.png)
+![list.png](https://qiita-image-store.s3.amazonaws.com/0/113398/e00b31d7-e90d-381a-ecfa-aa7458ebed59.png)
 
 ### git template manage
 パスリストの編集をする
 
-![manage.png](images/manage.png)
+![manage.png](https://qiita-image-store.s3.amazonaws.com/0/113398/f2a7ee90-9f96-226a-827e-fad4f76ddeb8.png)
 
 ### git template new
 リストの中の**実在しないパスのみ**を`percol`で選択し、`vim`で編集する
 
-![new01.png](images/new01.png)
-![new02.png](images/new02.png)
+![new01.png](https://qiita-image-store.s3.amazonaws.com/0/113398/28579cbf-21aa-1612-c9da-bff058c63657.png)
+![new02.png](https://qiita-image-store.s3.amazonaws.com/0/113398/f11b6515-bb43-eb39-e012-6433b50dbe7c.png)
 
 ### git template write
 リストの中の**実在するパスのみ**を`percol`で選択し、`vim`の無名バッファで編集する
 `write`は実在するファイルを開き編集するが、保存することは出来ない
 
-![write01.png](images/write01.png)
-![write02.png](images/write02.png)
-![write03.png](images/write03.png)
+![write01.png](https://qiita-image-store.s3.amazonaws.com/0/113398/d33f48c5-bf00-10fa-e6b1-61c134f4510e.png)
+![write02.png](https://qiita-image-store.s3.amazonaws.com/0/113398/b56c216e-b03f-f9a2-5240-df14001e7661.png)
+![write03.png](https://qiita-image-store.s3.amazonaws.com/0/113398/f56525c2-2958-2479-5c91-14ee05bf6a6c.png)
 
 ### git template edit
 リストの中の**実在するパスのみ**を`percol`で選択し、`vim`で編集する
 
 保存可能な点以外は`write`と同じ
+
+## やってみたかったこと
++ 丁寧な例外処理
++ git.configを使った設定
++ 公開と配布
++ インストール数を知る
+ + GitHubのTraficと言う画面でわかるらしい
+
+## 対応しなかったこと
++ エディタは`vim`固定じゃあなくて`git`で使うエディタを参照してきても良かった
+ + とりあえず自分用なので`vim`固定
+ + いつか対応するかも
++ `percol`の部分も同様に`peco`と選べても良かった
+ + 未対応理由は同上
+
+## 感想
+IssueやPRをブラウザで書くときにどうしても`vim`で書きたくて作った
+要は`write`が一番やりたかったことで、他のはプラグインとしての体裁を保つためのおまけ
+
+何にせよ晒すと思うとこういう場合の終了コードは普通どうなんだろう？とか色々既存品読んだりして勉強にはなった
