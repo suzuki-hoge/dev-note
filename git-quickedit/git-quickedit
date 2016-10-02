@@ -28,6 +28,7 @@ def usage():
 	print '    new    select a file from non_existent files, then vi new file.'
 	print '    write  select a file from existing files, then vi it with scratch buffer.'
 	print '    edit   select a file from existing files, then vi it.'
+	print ''
 
 def existing(root, path_list_file):
     return lines(
@@ -76,6 +77,7 @@ assert_it(os.path.exists(path_list_file), 'path list file is not exists, do foll
 if subcommand == 'list':
     print '\n' + path_list_file + '\n'
     os.system('cat %s' % path_list_file)
+    print ''
 
 # write
 elif subcommand == 'write':
