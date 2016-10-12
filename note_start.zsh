@@ -1,5 +1,5 @@
 function note_start() {
-  git checkout -b $1
-  mkdir $1
+  git checkout -B $1
+  mkdir -p $1
   cd $1
 }
