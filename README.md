@@ -13,6 +13,9 @@
 ## [python-import](python-import)
 + [README.md](python-import/README.md)
 
+## [scala-functions](scala-functions)
++ [README.md](scala-functions/README.md)
+
 ## [tip-dropwhile](tip-dropwhile)
 + [README.md](tip-dropwhile/README.md)
 
