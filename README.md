@@ -7,6 +7,9 @@
 + [QIITA.md](git-quickedit/QIITA.md)
 + [README.md](git-quickedit/README.md)
 
+## [java8-stream-then](java8-stream-then)
++ [README.md](java8-stream-then/README.md)
+
 ## [java9-repl](java9-repl)
 + [README.md](java9-repl/README.md)
 
