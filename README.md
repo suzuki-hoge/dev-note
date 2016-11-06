@@ -13,6 +13,9 @@
 ## [java8-stream-then](java8-stream-then)
 + [README.md](java8-stream-then/README.md)
 
+## [java8-streamable-list](java8-streamable-list)
++ [README.md](java8-streamable-list/README.md)
+
 ## [java9-repl](java9-repl)
 + [README.md](java9-repl/README.md)
 
