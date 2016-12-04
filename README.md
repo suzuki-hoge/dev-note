@@ -25,6 +25,10 @@
 ## [scala-functions](scala-functions)
 + [README.md](scala-functions/README.md)
 
+## [strict-builder](strict-builder)
++ [bup.md](strict-builder/bup.md)
++ [README.md](strict-builder/README.md)
+
 ## [tip-dropwhile](tip-dropwhile)
 + [README.md](tip-dropwhile/README.md)
 
