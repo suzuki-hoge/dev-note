@@ -471,6 +471,7 @@ isExist :: UserId -> IO Bool
 isExist userId = return True
 
 checkCombination :: Item -> Maybe Option -> Maybe InvalidReason
+checkCombination item option = case (item, option) of
     (PersonalComputer, Just Replacement) -> Just PersonalComputerAndReplacement
     (Keyboard,         Just Backup)      -> Just KeyboardAndBackup
     _                                    -> Nothing
@@ -784,8 +785,8 @@ sendMail (mailTitle userId item option)
 sendMail $ mailTitle userId item option
 ```
 
-どちらも書かないと`sendMail`の第一引数が`mailTitle`と解釈されてしまうが、`mailTitle`以降を先に評価して、その結果を`sendMail`に渡したい
-よくあるよね
+どちらも書かないと`sendMail`の第一引数が`mailTitle`と解釈されてしまうけど、
+`mailTitle`以降を先に評価して、その結果を`sendMail`に渡したいってこと、よくあるよね
 
 ```Haskell:これが
 return (Right license)
