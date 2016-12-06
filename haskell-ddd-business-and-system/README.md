@@ -471,6 +471,7 @@ isExist :: UserId -> IO Bool
 isExist userId = return True
 
 checkCombination :: Item -> Maybe Option -> Maybe InvalidReason
+checkCombination item option = case (item, option) of
     (PersonalComputer, Just Replacement) -> Just PersonalComputerAndReplacement
     (Keyboard,         Just Backup)      -> Just KeyboardAndBackup
     _                                    -> Nothing
