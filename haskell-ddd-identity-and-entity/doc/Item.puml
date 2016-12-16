@@ -1,0 +1,18 @@
+@startuml
+
+class Item {
+  ItemId
+  ItemName
+  StockedStatus
+  ItemStatus
+  Optional<ArrivalScheduledDate>
+  Optional<ReceivedDate>
+
+  provision()
+  ship()
+  receive()
+  cancel()
+  returnBack()
+}
+
+@enduml
