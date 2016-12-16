@@ -1,0 +1,18 @@
+@startuml
+
+scale 650 width
+
+[*] -right-> Stocked
+
+state Cancelable {
+  Stocked -down-> Provisioned : provision
+  Provisioned -right-> Shipped : ship ArrivalScheduledDate
+
+  Provisioned --> Stocked : cancel
+  Shipped --> Stocked : cancel
+}
+
+Shipped --> Received : receive ReceivedDate
+Received --> Stocked : returnBack Used
+
+@enduml

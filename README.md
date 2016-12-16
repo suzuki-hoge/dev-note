@@ -10,6 +10,9 @@
 ## [haskell-ddd-business-and-system](haskell-ddd-business-and-system)
 + [README.md](haskell-ddd-business-and-system/README.md)
 
+## [haskell-ddd-identity-and-entity](haskell-ddd-identity-and-entity)
++ [README.md](haskell-ddd-identity-and-entity/README.md)
+
 ## [java-8-list-util](java-8-list-util)
 + [README.md](java-8-list-util/README.md)
 
