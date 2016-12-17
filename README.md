@@ -13,6 +13,9 @@
 ## [haskell-ddd-identity-and-entity](haskell-ddd-identity-and-entity)
 + [README.md](haskell-ddd-identity-and-entity/README.md)
 
+## [haskell-ddd-represent-failure](haskell-ddd-represent-failure)
++ [README.md](haskell-ddd-represent-failure/README.md)
+
 ## [java-8-list-util](java-8-list-util)
 + [README.md](java-8-list-util/README.md)
 
