@@ -1,4 +1,4 @@
-FunctorとApplicativeFunctorとMonad
+HaskellのFunctorとApplicativeFunctorとMonad
 
 Haskellの理解度がペラッペラなので勉強し直した、そんなまとめ
 
@@ -11,14 +11,16 @@ Haskellの理解度がペラッペラなので勉強し直した、そんなま�
 なので目的はとりあえず読める様になり、あり物を使える様になること
 
 ### 知りたかったことと勉強前理解度
-+ instanceとは: 自前でShowを書くときに使うやつ
-+ Functorとは: はて
-+ ApplicativeFunctorとは: Functorよりすごいらしい、恐い
-+ Monadとは: ApplicativeFunctorよりすごいらしい、怖い
-+ pureとは: よくみる
-+ fmapとは: たまにみる
-+ `<$>`と`<*>`とは: よくみる
-+ doとは: 超よくみる、全然わからん
+キーワード         | 理解                                    
+:--                | :--                                     
+instance           | 自前でShowを書くときに使うやつ          
+Functor            | はて                                    
+ApplicativeFunctor | Functorよりすごいらしい、恐い           
+Monad              | ApplicativeFunctorよりすごいらしい、怖い
+pure               | よくみる                                
+fmap               | たまにみる                              
+<$>と<*>           | よくみる                                
+do                 | 超よくみる、全然わからん                
 
 ### やってないこと
 + 自作はまだしないので、則について細かく理解するのはまた今度
@@ -26,6 +28,7 @@ Haskellの理解度がペラッペラなので勉強し直した、そんなま�
  + ApplicativeFunctor則
  + Monad則
 + 直近で使いたいMaybe, Either以外のモナドはまた今度
+ + IO
  + List
  + Writer
  + Reader
@@ -35,7 +38,7 @@ Haskellの理解度がペラッペラなので勉強し直した、そんなま�
 すごいH本
 
 ## さっそく、の前に
-Maybeが一番わかりやすいと思い、H本の展開に則って自分で作ってみることにした
+`Maybe`が一番わかりやすいと思い、H本の展開に則って自分で作ってみることにした
 
 ```Haskell
 data Opt a = None | Some a
@@ -79,7 +82,7 @@ instance (Show a) => Show (Opt a) where
 こんな感じか
 
 ## Functor
-関数を、文脈の値に適用できる
+関数を、文脈のある値に適用できる
 
 ### 実装
 こんな実装らしい
@@ -89,7 +92,7 @@ class Functor f where
     fmap :: (a -> b) -> f a -> f b
 ```
 
-中身の値を直接変換する関数と、Functorの値で、新たなFunctor値にする、って感じっぽい
+中身の値を直接変換する関数と、Functorの値で、新たなFunctorの値にする、って感じっぽい
 
 Optで考えると、中身があるなら適用して、ないならないまま、って感じかな？
 さっそくMaybeの実装を写経する
@@ -106,15 +109,15 @@ instance Functor Opt where
 fmap :: (a -> b) -> Opt a -> Opt b
 ```
 
-具体化するると簡単に読めるな
+具体化すると簡単に読めるな
 使ってみよう
 
-```
-ghci> fmap (+2) None
-None
+```Haskell
+fmap (+2) None
+-- None
 
-ghci> fmap (+2) (Some 5)
-Some: 7
+fmap (+2) (Some 5)
+-- Some: 7
 ```
 
 中身があるかどうか気にしないで扱えちゃうってことだね、便利
@@ -135,30 +138,30 @@ half = (`div` 2)
 
 ```Haskell
 let some = optHalf 40
-print some
+some
 -- Some: 20
 
-print $ fmap optHalf some
+fmap optHalf some
 -- Some: Some: 10
 -- 間違えた、これは (Int -> Opt Int) を Opt Int の中身に適用しちゃうのでネストしちゃう
 
-print $ fmap half some
+fmap half some
 -- Some: 10
 
 -- もう一度半分にしたい場合は？
-print $ fmap half (fmap half some)
+fmap half (fmap half some)
 -- Some: 5
 
 -- 演算子化して間に置いてみる
-print $ half `fmap` some
+half `fmap` some
 -- Some: 10
 
 -- ところで <$> ってのが fmap と同じらしい
-print $ half <$> some
+half <$> some
 -- Some: 10
 
 -- 中身に2度適用するなら、先に関数合成して置いても同じ なるほど
-print $ fmap (half . half) some
+fmap (half . half) some
 -- Some: 5
 ```
 
@@ -179,7 +182,7 @@ class Functor f where
 あと`half`は奇数でも割っちゃうので、`optHalf`を繰り返したい
 
 ## ApplicativeFunctor
-文脈に入っている関数を、文脈の値に適用できる
+文脈のある関数を、文脈のある値に適用できる
 
 ### Functorの出来ないこと
 2引数関数だとどうなるか
@@ -249,13 +252,13 @@ pure (+3) :: (Num a, Applicative f) => f (a -> a)
 この3種どれでも、`<*>`で同じ文脈の値に適用できるんだったね
 
 ```Haskell
-print $ fmap (+) (Some 3) <*> (Some 5)
+fmap (+) (Some 3) <*> (Some 5)
 -- Some: 8
 
-print $ Some (+3) <*> (Some 5)
+Some (+3) <*> (Some 5)
 -- Some: 8
 
-print $ pure (+3) <*> (Some 5)
+pure (+3) <*> (Some 5)
 -- Some: 8
 
 -- おぉ, Opt Int に Opt (Int -> Int) が適用できてる
@@ -271,27 +274,32 @@ pure (+3) <*> None
 
 もう少し触ってみよう
 
+fmapは`<$>`とも書けるから
+
 ```Haskell
--- fmap は <$> とも書けるから
 
 (+) <$> (Some 3) <*> (Some 5)
 -- Some: 8
--- おぉ！よく見るやつだ！最初だけ <$> でそれ以降が <*> なやつ！
+```
 
--- 3引数も...??
+おぉ！よく見るやつだ！最初だけ`<$>`でそれ以降が`<*>`なやつ！
+
+3引数も...試してみよう！
+
+```
 let foo x y z = x + y + z
 
-print $ foo 1 2 3
+foo 1 2 3
 -- 6
 
-print $ foo <$> (Some 1) <*> (Some 2) <*> (Some 3)
+foo <$> (Some 1) <*> (Some 2) <*> (Some 3)
 -- Some: 6
 
-print $ foo <$> (Some 1) <*> None <*> (Some 3)
+foo <$> (Some 1) <*> None <*> (Some 3)
 -- None
-
--- おぉぉぉぉ！楽しい！
 ```
+
+おぉぉぉぉ！楽しい！
 
 > ところで、`Some 5 + Some 3`とかは出来ないのかな？
 
@@ -302,11 +310,11 @@ foo自体はそのまま使っていて、違う文脈でも使えちゃうの�
 だから例えばEitherでもおｋ
 
 ```Haskell
-print $ foo <$> (Right 1) <*> (Right 2) <*> (Right 3)
+foo <$> (Right 1) <*> (Right 2) <*> (Right 3)
 -- Right 6
 
-print $ foo <$> (Right 1) <*> (Left "odd not allowd") <*> (Right 3)
--- Left "odd not allowd"
+foo <$> (Right 1) <*> (Left "even not allowd") <*> (Right 3)
+-- Left "even not allowd"
 ```
 
 カッチョイイZE！
@@ -338,7 +346,7 @@ pure (+) <*> (Some 1) <*> (Some 2)
 Monadってのは何が出来るん？
 
 ## Monad
-文脈の値を、文脈を付けて返す関数に適用する
+文脈のある値を、文脈を付けて返す関数に適用する
 
 文脈を保ったまま、関数に渡したい
 って感じ？
@@ -379,46 +387,50 @@ instance Monad Opt where
 
 returnはpureと同じで、Optの世界に値を放り込むんだね
 `None >>= f`がNoneなのはイメージしやすい
-`Some x >>= f = f x`って、まるでxからSomeを引っぺがしている様だね、
-けど`(a -> m b)`だから、`f x`はまたSomeの文脈に戻る
+`Some x >>= f = f x`って、まるでxからSomeを引っぺがしている様だね、けど`(a -> m b)`だから、`f x`はまたSomeの文脈に戻る
 これが文脈を引っぺがすみたいだけど、文脈からそとに漏れないってことなのかな
 failはただのNoneになったみたい、失敗系モナドだから、例外よりその方が良さげ
 
 ### 使う
+まずreturnから
 returnは別にIO専用ではない！
 
-```
-ghci> return 5 :: Opt Int
-Some: 5
+```Haskell
+return 5 :: Opt Int
+-- Some: 5
 
-ghci> return 5 :: Either String Int
-Right 5
+return 5 :: Either String Int
+-- Right 5
 ```
 
-いままで何となくで書いてなんか怒られてたこれ、今見ると全然だめだね
+ちゃんとなんかの文脈に入って返ってきた
 
-```
-ghci> return 5 >>= (+2)
+次は`>>=`ね、いままで何となくで書いてなんか怒られてたこれ、今見ると全然だめだね
+
+```Haskell
+return 5 >>= (+2)
 ```
 
 `>>=`の先はまた同じ文脈にいれないといけないから
 （ちなみに、`Some 5`に2を足したいなら最初にやった`(+2) <$> Some 5`だからね！すらすら書けるぜー）
 
 `Int -> Opt Int`の関数を適当に用意
-```
-ghci> let optInc x = Some $ x + 1
-ghci> optInc 5
-Some: 6
+
+```Haskell
+let optInc x = Some $ x + 1
+
+optInc 5
+-- Some: 6
 ```
 
 で、使う
 
-```
-ghci> Some 5 >>= optInc 
-Some: 6
+```Haskell
+Some 5 >>= optInc 
+-- Some: 6
 
-ghci> return 5 >>= optInc 
-Some: 6
+return 5 >>= optInc 
+-- Some: 6
 ```
 
 うん、出来ているね
@@ -435,17 +447,17 @@ optHalf x = case even x of
     _    -> None
 ```
 
-```
-ghci> return 6 >>= optHalf 
-Some: 3
+```Haskell
+return 6 >>= optHalf 
+-- Some: 3
 ```
 
 お、ピッタリだ
 んで、得た値がOptということは...
 
-```
-ghci> return 6 >>= optHalf >>= optHalf 
-None
+```Haskell
+return 6 >>= optHalf >>= optHalf 
+-- None
 ```
 
 > あと`half`は奇数でも割っちゃうので、`optHalf`を繰り返したい
@@ -454,7 +466,7 @@ None
 `Int -> Opt Int`なのに結果をどんどん次に連結している！（いちいちOptを引っぺがしている感じはないけど）
 
 これもApplicativeFunctorと同じで、`>>=`は文脈次第なので、EitherはまたOptとは違った感じになる
-けど、ApplicativeFunctorで使った`(+)`とは違い、文脈に入れないといけないので関数は都度用意しないと行けないのかな？
+けど、ApplicativeFunctorで使った`(+)`とは違い、最後に文脈に入れないといけないので関数は都度用意しないといけないのかな？
 
 ```Haskell
 up :: Int -> Either String Int
@@ -472,21 +484,21 @@ down x
 
 使ってみよう
 
-```
-ghci> return 0 >>= inc
-Right 1
+```Haskell
+return 0 >>= inc
+-- Right 1
 
-ghci> return 0 >>= inc >>= inc
-Right 2
+return 0 >>= inc >>= inc
+-- Right 2
 
-ghci> return 0 >>= inc >>= inc >>= inc
-Left "too big"
+return 0 >>= inc >>= inc >>= inc
+-- Left "too big"
 
-ghci> return 0 >>= inc >>= dec >>= dec
-Left "too small"
+return 0 >>= inc >>= dec >>= dec
+-- Left "too small"
 
-ghci> return 0 >>= inc >>= dec >>= dec >>= inc >>= inc
-Left "too small"
+return 0 >>= inc >>= dec >>= dec >>= inc >>= inc
+-- Left "too small"
 ```
 
 どのタイミングで失敗したかって気にしないでいくらでも連結できてる！
@@ -507,15 +519,15 @@ dec x
 
 こうかー！
 
-```
-ghci> Some 1 >>= inc
-Some: 2
+```Haskell
+Some 1 >>= inc
+-- Some: 2
 
-ghci> Some 1 >>= inc >>= inc
-None
+Some 1 >>= inc >>= inc
+-- None
 
-ghci> Some 1 >>= inc >>= inc >>= dec
-None
+Some 1 >>= inc >>= inc >>= dec
+-- None
 ```
 
 Someでも使えた！
@@ -523,23 +535,23 @@ returnはSomeで、failはNoneって実装だからね！
 
 けどEitherのfailはerrorだった、Leftじゃあないのかー残念
 
-```
-ghci> Right 1 >>= inc >>= inc
-*** Exception: too big
+```Haskell
+Right 1 >>= inc >>= inc
+-- *** Exception: too big
 ```
 
 ところで、returnに慣れてきたので、以下は正しいけど
 
-```
-ghci> Some 5 >>= (\x -> return $ x + 1)
-Some: 6
+```Haskell
+Some 5 >>= (\x -> return $ x + 1)
+-- Some: 6
 ```
 
 これはおかしいってのが、今ならわかる
 
-```
-ghci> Some 5 >>= (\x -> return None)
-Some: None
+```Haskell
+Some 5 >>= (\x -> return None)
+-- Some: None
 ```
 
 returnはいつも使っているreturn文ではないから、`戻す`ってことじゃあない！
@@ -695,10 +707,19 @@ zak = do
 ### 3つのまとめ（再掲）
 3つの肝となる型をもう一度
 
+Functor: 関数を、文脈のある値に適用できる
+
 ```Haskell
 class Functor f where
     fmap :: (a -> b) -> f a -> f b
 ```
+
+```Haskell
+fmap (+2) (Some 5)
+-- Some: 7
+```
+
+ApplicativeFunctor: 文脈のある関数を、文脈のある値に適用できる
 
 ```Haskell
 class (Functor f) => Applicative f where
@@ -708,12 +729,26 @@ class (Functor f) => Applicative f where
 ```
 
 ```Haskell
+pure (+) <*> Some 2 <*> Some 3
+-- Some 5
+```
+
+Monad: 文脈のある値を、文脈を付けて返す関数に適用する
+
+```Haskell
 class Monad m where
     return :: a -> m a
 
     (>>=) :: m a -> (a -> m b) -> m b
 
     -- (>>) と fail は略
+```
+
+```Haskell
+let optInc x = Some $ x + 1
+
+return 5 >>= optInc 
+-- Some: 6
 ```
 
 ### 今後の課題
