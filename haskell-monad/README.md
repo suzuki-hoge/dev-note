@@ -14,7 +14,7 @@ Haskellの理解度がペラッペラなので勉強し直した、そんなま�
 キーワード         | 理解                                    
 :--                | :--                                     
 instance           | 自前でShowを書くときに使うやつ          
-Functor            | はて                                    
+Functor            | なんかmapできるらしい、はて
 ApplicativeFunctor | Functorよりすごいらしい、恐い           
 Monad              | ApplicativeFunctorよりすごいらしい、怖い
 pure               | よくみる                                
@@ -260,10 +260,13 @@ Some (+3) <*> (Some 5)
 
 pure (+3) <*> (Some 5)
 -- Some: 8
+```
 
--- おぉ, Opt Int に Opt (Int -> Int) が適用できてる
+おぉ, Opt Int に Opt (Int -> Int) が適用できてる
 
--- もちろんどちらかが None ならお察しの通り
+もちろんどちらかが None ならお察しの通り
+
+```Haskell
 
 None <*> (Some 5)
 -- None
@@ -286,7 +289,7 @@ fmapは`<$>`とも書けるから
 
 3引数も...試してみよう！
 
-```
+```Haskell
 let foo x y z = x + y + z
 
 foo 1 2 3
@@ -414,6 +417,7 @@ return 5 >>= (+2)
 `>>=`の先はまた同じ文脈にいれないといけないから
 （ちなみに、`Some 5`に2を足したいなら最初にやった`(+2) <$> Some 5`だからね！すらすら書けるぜー）
 
+じゃあ次に`>>=`を試そう
 `Int -> Opt Int`の関数を適当に用意
 
 ```Haskell
@@ -627,6 +631,29 @@ bar = do
 ghci> bar
 None
 ```
+
+ちなみに、returnが戻すって意味ではない例
+
+```Haskell
+pon :: Opt Int
+pon = do
+    x <- return 5
+    y <- return 6 >>= optHalf
+    return $ x + y
+```
+
+returnはこのOptの文脈においてはただのSomeだから、別に戻りはしないね！
+
+```Haskell
+pon :: Opt Int
+pon = do
+    x <- return 5
+    return 5 >>= optHalf
+    y <- return 6 >>= optHalf
+    return $ x + y
+```
+
+こんな風に途中で失敗した場合、そこで戻っている様に見えるけど、ただ次の処理へNoneが伝播しているだけだと今ならわかる！
 
 ### 疑問: ApplicativeFunctorとの使い分け
 でもさっきの例だと
