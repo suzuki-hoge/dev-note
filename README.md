@@ -19,6 +19,9 @@
 ## [haskell-lint](haskell-lint)
 + [README.md](haskell-lint/README.md)
 
+## [haskell-monad](haskell-monad)
++ [README.md](haskell-monad/README.md)
+
 ## [java-8-list-util](java-8-list-util)
 + [README.md](java-8-list-util/README.md)
 
