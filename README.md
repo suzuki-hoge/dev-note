@@ -22,6 +22,9 @@
 ## [haskell-monad](haskell-monad)
 + [README.md](haskell-monad/README.md)
 
+## [haskell-validation](haskell-validation)
++ [README.md](haskell-validation/README.md)
+
 ## [java-8-list-util](java-8-list-util)
 + [README.md](java-8-list-util/README.md)
 
