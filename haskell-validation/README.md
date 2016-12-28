@@ -239,7 +239,7 @@ Failure ["UserId: not null","UserId: length must be 6"]
 
 うん、これで進めてみよう。
 
-けどその前に細かいけど、何回もバリデータ名を書くのは嫌だし見通しも悪いので、`map`を使ってまとめて部分適用するように改造。
+けどその前に細かいですが、何回もバリデータ名を書くのは嫌だし見通しも悪いので、`map`を使ってまとめて部分適用するようにちょっとだけ改造します。
 
 ```Haskell
 map (\f -> f "UserId") [notNull, len 6] <*> ["user-1"]
@@ -251,7 +251,6 @@ map (\f -> f "UserId") [notNull, len 6] <*> ["user-1"]
 
 ```Haskell
 flat :: Validation [String] String -> Validation [String] String -> Validation [String] String
--- flat :: Validated -> Validated -> Validated
 flat (Success x) (Success y) = Success x
 flat (Success x) (Failure y) = Failure y
 flat (Failure x) (Success y) = Failure x
