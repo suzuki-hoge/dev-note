@@ -1,10 +1,3 @@
-command! T call Window()
-
-function! Window()
-    call Open()
-    call FocusMarkdown()
-endfunction
-
 function! Open()
     set splitright
     
@@ -13,13 +6,10 @@ function! Open()
 	setlocal nobuflisted
 	setlocal buftype=nofile
 	silent file `='Index'`
+
+    nnoremap <buffer> <CR> :call Jump()<CR>
 endfunction
 
 function! FocusIndex()
     execute bufwinnr('Index') . 'wincmd w'
-endfunction
-
-function! FocusMarkdown()
-    call FocusIndex()
-    wincmd h
 endfunction

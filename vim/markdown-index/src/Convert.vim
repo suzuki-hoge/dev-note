@@ -1,15 +1,10 @@
-command! C call Convert()
-
 function! Convert()
     let lines = GetAllLines()
-    let indices = Filter(lines)
-
-    echo indices
+    return Filter(lines)
 endfunction
 
 function! GetAllLines()
-    " return getline(1, '$')
-    return ['# Header', '## Foo', 'foo', 'foo', '## Bar', 'bar', '### Baz', '```sh', '# comment', '```', '']
+    return getline(1, '$')
 endfunction
 
 function! Filter(lines)
@@ -28,6 +23,16 @@ function! Filter(lines)
         if a:lines[i] =~? '^#' && inCode == 0
             let result = result + [{'lineNum': i + 1, 'line': a:lines[i]}]
         endif
+    endfor
+
+    return result
+endfunction
+
+function! ToLines(indices)
+    let result = []
+
+    for i in range(len(a:indices))
+        let result = result + [a:indices[i]['line']]
     endfor
 
     return result
