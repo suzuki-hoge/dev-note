@@ -8,7 +8,7 @@ import Form.User.LastNameForm
 import Domain.User.LastName
 
 spec :: Spec
-spec = do
+spec =
     describe "parse" $ do
         it "success" $
             parse "Doe" `shouldBe` Success (LastName "Doe")

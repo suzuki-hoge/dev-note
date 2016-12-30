@@ -13,7 +13,7 @@ import Domain.User.BirthDate as B
 import Domain.Mail.MailAddress
 
 spec :: Spec
-spec = do
+spec =
     describe "parse" $ do
         it "success" $ do
             let full = FullName (FirstName "John") (LastName "Doe")
