@@ -15,11 +15,13 @@ cabal-version:       >=1.10
 
 library
   hs-source-dirs:      src
-  exposed-modules:     Domain.User.FullName
+  exposed-modules:     Domain.Registration.PersonalData
+                     , Domain.User.FullName
                      , Domain.User.FirstName
                      , Domain.User.LastName
                      , Domain.User.BirthDate
                      , Domain.Mail.MailAddress
+                     , Form.Registration.PersonalDataForm
                      , Form.Validator
                      , Form.User.FullNameForm
                      , Form.User.FirstNameForm
