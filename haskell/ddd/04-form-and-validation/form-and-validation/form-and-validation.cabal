@@ -15,9 +15,17 @@ cabal-version:       >=1.10
 
 library
   hs-source-dirs:      src
-  exposed-modules:     Domain.User.UserId
+  exposed-modules:     Domain.User.FullName
+                     , Domain.User.FirstName
+                     , Domain.User.LastName
+                     , Domain.User.BirthDate
+                     , Domain.Mail.MailAddress
                      , Form.Validator
-                     , Form.User.UserIdForm
+                     , Form.User.FullNameForm
+                     , Form.User.FirstNameForm
+                     , Form.User.LastNameForm
+                     , Form.User.BirthDateForm
+                     , Form.Mail.MailAddressForm
   build-depends:       base >= 4.7 && < 5
                      , either >= 4.4.1.1
                      , regex-posix >= 0.95.2
