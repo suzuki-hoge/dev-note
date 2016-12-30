@@ -8,7 +8,7 @@ import Form.Mail.MailAddressForm
 import Domain.Mail.MailAddress
 
 spec :: Spec
-spec = do
+spec =
     describe "parse" $ do
         it "success" $
             parse "foo.bar@gmail.com" `shouldBe` Success (MailAddress "foo.bar@gmail.com")

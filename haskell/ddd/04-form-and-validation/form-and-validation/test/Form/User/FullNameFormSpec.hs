@@ -10,7 +10,7 @@ import Domain.User.FirstName
 import Domain.User.LastName
 
 spec :: Spec
-spec = do
+spec =
     describe "parse" $ do
         it "success" $
             parse "John" "Doe" `shouldBe` Success (FullName (FirstName "John") (LastName "Doe"))

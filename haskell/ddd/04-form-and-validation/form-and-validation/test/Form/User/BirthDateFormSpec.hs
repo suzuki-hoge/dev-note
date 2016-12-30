@@ -8,7 +8,7 @@ import Form.User.BirthDateForm
 import Domain.User.BirthDate as B
 
 spec :: Spec
-spec = do
+spec =
     describe "parse" $ do
         it "success" $
             parse "2016-12/30" `shouldBe` Success (B.fromString "2016-12/30")
