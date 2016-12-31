@@ -1,4 +1,4 @@
-module Form.User.FullNameForm where
+module Form.User.FullNameForms where
 
 import Form.Validator
 

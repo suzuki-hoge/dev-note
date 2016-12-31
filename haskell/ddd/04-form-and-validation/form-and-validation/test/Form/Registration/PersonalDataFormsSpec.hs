@@ -1,10 +1,10 @@
-module Form.Registration.PersonalDataFormSpec where
+module Form.Registration.PersonalDataFormsSpec where
 
 import Test.Hspec
 
 import Data.Either.Validation
 
-import Form.Registration.PersonalDataForm
+import Form.Registration.PersonalDataForms
 import Domain.Registration.PersonalData
 import Domain.User.FullName
 import Domain.User.FirstName

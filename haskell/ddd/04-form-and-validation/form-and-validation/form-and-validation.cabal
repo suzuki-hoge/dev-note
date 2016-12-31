@@ -21,9 +21,9 @@ library
                      , Domain.User.LastName
                      , Domain.User.BirthDate
                      , Domain.Mail.MailAddress
-                     , Form.Registration.PersonalDataForm
+                     , Form.Registration.PersonalDataForms
                      , Form.Validator
-                     , Form.User.FullNameForm
+                     , Form.User.FullNameForms
                      , Form.User.FirstNameForm
                      , Form.User.LastNameForm
                      , Form.User.BirthDateForm
