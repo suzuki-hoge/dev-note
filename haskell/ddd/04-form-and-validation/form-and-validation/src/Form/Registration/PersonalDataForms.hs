@@ -1,9 +1,9 @@
-module Form.Registration.PersonalDataForm where
+module Form.Registration.PersonalDataForms where
 
 import Form.Validator
 
 import Domain.Registration.PersonalData
-import Form.User.FullNameForm as F
+import Form.User.FullNameForms as F
 import Form.User.BirthDateForm as B
 import Form.Mail.MailAddressForm as M
 

@@ -14,9 +14,9 @@ type Rule = FormName -> Value -> Validated Value
 
 parse :: FormName -> [Rule] -> (Value -> a) -> Value -> Validated a
 parse name rules constructor value = constructor <$> validate name rules value
-
-validate :: FormName -> [Rule] -> Value -> Validated Value
-validate name rules value = head <$> sequenceA (map (\f -> f name) rules <*> [value])
+    where
+        validate :: FormName -> [Rule] -> Value -> Validated Value
+        validate name rules value = head <$> sequenceA (map (\f -> f name) rules <*> [value])
 
 mkErrors :: FormName -> Value -> Message -> [Error]
 mkErrors name value message = [name ++ "[" ++ value ++ "]: " ++ message]

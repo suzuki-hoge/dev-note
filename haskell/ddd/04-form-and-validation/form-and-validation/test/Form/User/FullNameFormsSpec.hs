@@ -1,10 +1,10 @@
-module Form.User.FullNameFormSpec where
+module Form.User.FullNameFormsSpec where
 
 import Test.Hspec
 
 import Data.Either.Validation
 
-import Form.User.FullNameForm
+import Form.User.FullNameForms
 import Domain.User.FullName
 import Domain.User.FirstName
 import Domain.User.LastName
