@@ -10,4 +10,8 @@ public class Foo {
         this.name = name;
         this.type = type;
     }
+
+    public boolean isTypeA() {
+        return type.isA();
+    }
 }
