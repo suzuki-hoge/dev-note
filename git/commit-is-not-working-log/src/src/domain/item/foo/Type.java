@@ -1,4 +1,4 @@
-package domain.foo;
+package domain.item.foo;
 
 public enum Type {
     A, B

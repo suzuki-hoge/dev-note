@@ -1,4 +1,4 @@
-package domain.foo;
+package domain.item.foo;
 
 public class Name {
     private final String value;
