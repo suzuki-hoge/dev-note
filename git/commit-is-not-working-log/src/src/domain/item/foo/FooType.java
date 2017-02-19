@@ -1,5 +1,5 @@
 package domain.item.foo;
 
-public enum Type {
+public enum FooType {
     A, B
 }

@@ -1,11 +1,11 @@
 package domain.item.foo;
 
 public class Foo {
-    private final Id id;
-    private final Name name;
-    private final Type type;
+    private final FooId id;
+    private final FooName name;
+    private final FooType type;
 
-    public Foo(Id id, Name name, Type type) {
+    public Foo(FooId id, FooName name, FooType type) {
         this.id = id;
         this.name = name;
         this.type = type;

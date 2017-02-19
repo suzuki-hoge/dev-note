@@ -1,9 +1,9 @@
 package domain.item.foo;
 
-public class Id {
+public class FooId {
     private final String value;
 
-    public Id(String value) {
+    public FooId(String value) {
         this.value = value;
     }
 }
