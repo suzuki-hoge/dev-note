@@ -91,22 +91,22 @@ Optionは、失敗するかも知れないということを表現します。
 Replを使って試してみましょう
 
 ```Scala:Repl
-scala> val a: Option[Int] = Some(5)  // Someで「成功」を生成
+scala> val a: Option[Int] = Option(5) // Optionで「成功」を生成
 a: Option[Int] = Some(5)
 
-scala> val b: Option[Int] = None     // Noneで「失敗」を生成
+scala> val b: Option[Int] = None      // Noneで「失敗」を生成
 b: Option[Int] = None
 
-scala> a.isDefined                   // 成功かチェックしたり出来る
+scala> a.isDefined                    // 成功かチェックしたり出来る
 res3: Boolean = true
 
 scala> b.isDefined
 res4: Boolean = false
 
-scala> a.get                         // 中の値を取り出せる
+scala> a.get                          // 中の値を取り出せる
 res5: Int = 5
 
-scala> b.get                         // けど、失敗に対して中身を要求してはいけない！
+scala> b.get                          // けど、失敗に対して中身を要求してはいけない！
 java.util.NoSuchElementException: None.get
   at scala.None$.get(Option.scala:347)
   at scala.None$.get(Option.scala:345)
@@ -157,7 +157,7 @@ res1: Option[String] = None
 ```Scala:解答例
 def add2(x: Option[Int]) = {
   if (x.isDefined)
-    Some(x.get + 2)
+    Option(x.get + 2)
   else
     None
 }
@@ -219,15 +219,15 @@ def sum_by_flatMap(a: Option[Int], b: Option[Int], c: Option[Int]): Option[Int] 
   // isDefined と get を用いず flatMap のみを用いてください
 
   // flatMap は写した結果がネストした Option になってしまうのを解消します
-  // Replで Some(5).map(it => Some(it + 2)) と Some(5).flatMap(it => Some(it + 2)) 等を比べてみてください
+  // Replで Option(5).map(it => Option(it + 2)) と Option(5).flatMap(it => Option(it + 2)) 等を比べてみてください
   // map で実装すると Some(Some(Some(Some(x)))) になってしまうので flatMap を用います 平らにされる様を強くイメージしてください
 }
 ```
 
 ```Scala:実行イメージ
-val a: Option[Int] = Some(2)
-val b: Option[Int] = Some(3)
-val c: Option[Int] = Some(1)
+val a: Option[Int] = Option(2)
+val b: Option[Int] = Option(3)
+val c: Option[Int] = Option(1)
 
 println(
   sum_by_if(a, b, c)         // Some(6)
@@ -257,7 +257,7 @@ println(
 ```Scala:解答例
 def sum_by_if(a: Option[Int], b: Option[Int], c: Option[Int]): Option[Int] = {
   if (a.isDefined && b.isDefined && c.isDefined)
-    Some(a.get + b.get + c.get)
+    Option(a.get + b.get + c.get)
   else
     None
 }
@@ -266,7 +266,7 @@ def sum_by_nested_if(a: Option[Int], b: Option[Int], c: Option[Int]): Option[Int
   if (a.isDefined)
     if (b.isDefined)
       if (c.isDefined)
-        Some(a.get + b.get + c.get)
+        Option(a.get + b.get + c.get)
       else
         None
     else
@@ -278,7 +278,7 @@ def sum_by_nested_if(a: Option[Int], b: Option[Int], c: Option[Int]): Option[Int
 def sum_by_flatMap(a: Option[Int], b: Option[Int], c: Option[Int]): Option[Int] = {
   a.flatMap(_a =>
     b.flatMap(_b =>
-      c.flatMap(_c => Some(_a + _b + _c))
+      c.flatMap(_c => Option(_a + _b + _c))
     )
   )
 }
@@ -294,7 +294,7 @@ def sum_by_flatMap(a: Option[Int], b: Option[Int], c: Option[Int]): Option[Int] 
 ```Scala:バグ解答例
 def sum_by_if(a: Option[Int], b: Option[Int], c: Option[Int]): Option[Int] = {
   if (a.isDefined && c.isDefined && c.isDefined)
-    Some(a.get + b.get + c.get)
+    Option(a.get + b.get + c.get)
   else
     None
 }
@@ -307,14 +307,14 @@ def sum_by_if(a: Option[Int], b: Option[Int], c: Option[Int]): Option[Int] = {
     None
   if (c.isDefined)
     None
-  Some(a.get + b.get + c.get)
+  Option(a.get + b.get + c.get)
 }
 
 def sum_by_nested_if(a: Option[Int], b: Option[Int], c: Option[Int]): Option[Int] = {
   if (a.isDefined)
     if (b.isDefined)
       if (c.isDefined)
-        Some(a.get + a.get + c.get)
+        Option(a.get + a.get + c.get)
       else
         None
     else
@@ -383,7 +383,7 @@ def sum_by_for(a: Option[Int], b: Option[Int], c: Option[Int]): Option[Int] = {
 
 リスクと分離という観点から見てみましょう。
 
-`isDefined`, `get`, `map`, `flatMap`, `Some`のいずれも使っていないのが最大のポイントです。
+`isDefined()`, `get()`, `map()`, `flatMap()`, `Option()`のいずれも使っていないのが最大のポイントです。
 
 チェック、取り出す、入れ直すという処理はScalaが責任を持ってくれます。
 その辺にくだらないバグが入り込む余地が激減しています。
@@ -515,7 +515,7 @@ def add2(x: Int): Int = {
 
 ```Scala
 println(
-  Some(5).map(add2)        // Some(7)
+  Option(5).map(add2)      // Some(7)
 )
 
 println(
@@ -802,7 +802,7 @@ def createRegistrationMail_if(firstName: Option[FirstName], lastName: Option[Las
   else if (mailAddress.isEmpty)
     None
   else
-    Some(Mail.registration(mailAddress.get, firstName.get, lastName.get))
+    Option(Mail.registration(mailAddress.get, firstName.get, lastName.get))
 }
 
 def createRegistrationMail_for(firstName: Option[FirstName], lastName: Option[LastName], mailAddress: Option[MailAddress]): Option[Mail] = {
@@ -985,7 +985,7 @@ Java8になって`Optional`に初めて触れた人が多い様に感じます�
   + [Option型を使いこなして初心者から中級者へ](http://sssslide.com/speakerdeck.com/daiksy/scala-fukuoka)
   + `Either`は少なめ
   + コレクションに焦点を当てて？書かれています
-+ `For式`の仕組み自体に興味が出たら
++ 文脈というものに興味が出たら
   + [HaskellのFunctorとApplicativeFunctorとMonad](http://qiita.com/suzuki-hoge/items/36b74d6daed9cd837bb3)
   + 僕の記事で恐縮ですが、「すごいHaskell楽しく学ぼう」の学習記録です
   + 文脈の扱いをとても体系立てて学べます
